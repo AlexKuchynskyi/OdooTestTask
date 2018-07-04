@@ -1,0 +1,26 @@
+"""
+Дано товарний чек. В ньому знаходяться товари, кількість та ціна. Підсумок чеку містить розрахунок податку. 
+Ваша задача скорелювати розрахунок податку на одну позицію в чеку так, щоб в підсумок податків на кожну позицію дорівнював 
+загальному підсумку. Точність виведення два знаки після коми.
+
+Поки що почав розраховувати можливі комбінації для чеку, який складається з трьох найменувань.
+В подальшому можна уніфікувати під довільну кількість позицій...
+"""
+
+def tax(tax_1, tax_2, tax_3, total_tax):
+    tax_list = [tax_1, tax_2, tax_3]
+    max_tax = max(tax_list)
+    tax_list.remove(max_tax)
+    min_tax = min(tax_list)
+    tax_list.remove(min_tax)
+    average_tax = tax_list[0]
+
+    counter = 0
+    for i in range(int(total_tax / max_tax) + 1):
+        for j in range(int(total_tax / average_tax) + 1):
+            for k in range(int(total_tax / min_tax) + 1):
+                if ((i * max_tax) + (j * average_tax) + (k * min_tax)) > total_tax:
+                    break
+                if (i + j + k) % 2 != 0:
+                    counter = counter + 1
+    return counter
