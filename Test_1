@@ -1,0 +1,14 @@
+"""
+Створити функцію що приймає число, перевіряє його та виводить “Even” або “Odd”
+"""
+
+def odd_even (number):
+    oper = int(number)
+    if (oper % 2) == 0:
+        print("Even")
+    else:
+        print("Odd")
+
+print ("Input number:")
+input_number = input()
+odd_even(input_number)
