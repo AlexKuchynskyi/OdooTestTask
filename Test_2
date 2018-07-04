@@ -1,0 +1,80 @@
+"""
+Ваша програма має видати безперервну послідовність латинських літер в нижньому регістрі довжиною 1 000 000 символів. 
+Послідовність має відповідати вимогам:
+  Кожна літера з'являється не частіше 40 000 раз в послідовності;
+  Кожна можлива послідовність з двох букв зявляється не частіше 2 000;
+  Кожна можлива послідовність з трьох букв з'являється не частіше 100;
+"""
+
+import random
+import itertools
+
+alphabet = 'abcdefghijklmnopqrstuvwxyz'
+
+line = ''
+
+spisok_1 = list(itertools.product(alphabet, repeat = 1))
+spisok_2 = list(itertools.product(alphabet, repeat = 2))
+spisok_3 = list(itertools.product(alphabet, repeat = 3))
+new_spisok_1 = []
+new_spisok_2 = []
+new_spisok_3 = []
+
+for i in range(len(spisok_1)):
+    element = ''.join(spisok_1[i])
+    new_spisok_1.append(element)
+dic_1 = dict.fromkeys(new_spisok_1, 0)
+print dic_1
+
+for i in range(len(spisok_2)):
+    element = ''.join(spisok_2[i])
+    new_spisok_2.append(element)
+dic_2 = dict.fromkeys(new_spisok_2, 0)
+print dic_2
+
+for i in range(len(spisok_3)):
+    element = ''.join(spisok_3[i])
+    new_spisok_3.append(element)
+dic_3 = dict.fromkeys(new_spisok_3, 0)
+print dic_3
+
+print ("The quantity of double combinations is: %d" %len(new_spisok_2))
+print ("The quantity of triple combinations is: %d" %len(new_spisok_3))
+
+for i in range(1000000):
+    character = random.choice(alphabet)
+    dic_1[character] += 1
+    line = line + character
+    if i == 1:
+        double_parameter = line[i-1] + line[i]
+        dic_2[double_parameter] += 1
+    if i > 1:
+        double_parameter = line[i-1] + line[i]
+        dic_2[double_parameter] += 1
+        triple_parameter = line[i-2] + line[i - 1] + line[i]
+        dic_3[triple_parameter] += 1
+
+print ("\nTHE RESULT LINE IS: %s" %line)
+
+overload = False
+for key in dic_1:
+    if dic_1[key] > 40000: overload = True
+for key in dic_2:
+    if dic_2[key] > 2000: overload = True
+for key in dic_3:
+    if dic_3[key] > 100: overload = True
+if overload:
+    print ("\nOVER")
+else:
+    print ("\nOK")
+
+print ("\n------------------------------------CHECK--------------------------------\n")
+print dic_1
+print dic_2
+print dic_3
+key_max_1 = max(dic_1.keys(), key=(lambda k: dic_1[k]))
+print('Maximum Value of Single: ', dic_1[key_max_1])
+key_max_2 = max(dic_2.keys(), key=(lambda k: dic_2[k]))
+print('Maximum Value of Double: ', dic_2[key_max_2])
+key_max_3 = max(dic_3.keys(), key=(lambda k: dic_3[k]))
+print('Maximum Value of Triple: ', dic_3[key_max_3])
